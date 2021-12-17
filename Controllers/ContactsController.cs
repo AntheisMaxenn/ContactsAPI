@@ -76,9 +76,9 @@ namespace ContactsAPI.Controllers
             return await context.Contacts.Skip(skipAmount).Take(limit).ToListAsync();
         }
 
-        [HttpPost]
+        [HttpGet]
         [Route("/search")]
-        public async Task<ActionResult<List<Contact>>> NameSearch([FromBody] string name)
+        public async Task<ActionResult<List<Contact>>> NameSearch([FromQuery] string name)
         {
             List<Contact> result = await context.Contacts.Where(c => c.Name.Contains(name)).ToListAsync();
             return result.Count() > 0 ? result : NotFound();
