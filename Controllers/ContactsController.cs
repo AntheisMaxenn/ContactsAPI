@@ -73,7 +73,8 @@ namespace ContactsAPI.Controllers
         public async Task<List<Contact>> GetPageContacts(int page, int limit)
         {
             var skipAmount = (page * limit) - limit;
-            return await context.Contacts.Skip(skipAmount).Take(limit).ToListAsync();
+            //return await context.Contacts.Skip(skipAmount).Take(limit).ToListAsync();
+            return await context.Contacts.AsNoTracking().OrderBy(x => x.Id).P
         }
 
         [HttpGet]

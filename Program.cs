@@ -13,6 +13,17 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<ContactsContext>(options => options.UseSqlServer(
             builder.Configuration["ConnectionStrings:DefaultConnection"]));
 
+// Required For Cors..
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(builder =>
+    {
+        builder.AllowAnyOrigin();
+        builder.AllowAnyMethod();
+        builder.AllowAnyHeader();
+    });
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -23,6 +34,10 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+// Required for Cors..
+
+app.UseCors();
 
 app.UseAuthorization();
 
