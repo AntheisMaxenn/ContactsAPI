@@ -24,9 +24,6 @@ namespace ContactsAPI.Data
             
             var contacts = JsonSerializer.Deserialize<Contact[]>(fileContent);
 
-            //Console.WriteLine("About the print the lines");
-            //contacts.Take(10).ToList().ForEach(contact => Console.WriteLine(contact));
-
             return contacts;
         }
     

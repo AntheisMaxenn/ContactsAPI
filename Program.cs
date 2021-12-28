@@ -1,11 +1,6 @@
-using AutoMapper;
 using ContactsAPI.Data;
-using ContactsAPI.Mapping;
-using ContactsAPI.Services;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 
-//readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -17,18 +12,16 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<ContactsContext>(options => options.UseSqlServer(
             builder.Configuration["ConnectionStrings:DefaultConnection"]));
-builder.Services.AddAutoMapper(typeof(RequestToDomainProfile));
 
-// Registering the ContactService service
-//builder.Services.AddScoped<IContactService, ContactService>();
-builder.Services.AddTransient<IContactService, ContactService>();
-
+// Required For Cors..
 builder.Services.AddCors(options =>
-    {   options.AddDefaultPolicy(builder =>
+{
+    options.AddDefaultPolicy(builder =>
     {
         builder.AllowAnyOrigin();
+        builder.AllowAnyMethod();
+        builder.AllowAnyHeader();
     });
-    
 });
 
 var app = builder.Build();
@@ -41,6 +34,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+// Required for Cors..
 
 app.UseCors();
 
